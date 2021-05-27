@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "259631333469",
+    "project_id": "notificationmark3",
+    "storage_bucket": "notificationmark3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259631333469:android:84400095304a2271d94db4",
+        "android_client_info": {
+          "package_name": "com.notimark3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259631333469-5dvu4sq1ovuhpf02dkrsmknlh95c9j5s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.notimark3",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "259631333469-5ls900po3to4b9j46eoge361nnbu06es.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHG-piDgrJCr-CU8dx8TzZzplia5VYu6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259631333469-5ls900po3to4b9j46eoge361nnbu06es.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
