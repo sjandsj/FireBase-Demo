@@ -8,143 +8,142 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
+  FlatList,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
-import { signUpUser, signInUser, signOutUser } from './apiServie';
+import { signUpUser, signInUser, signOutUser, submitUser } from './apiServie';
+import database from '@react-native-firebase/database';
+
 
 const App = () => {
-  const [email, changeMail] = useState('');
-  const [pass, changePass] = useState('');
-  const [user, setUser] = useState();
 
-  const signUp = () => {
-    console.log(email, pass)
-    signUpUser(email, pass).then(data=>{
-      console.log('SignupUser function called', data)
-    }).catch(error=>{
-      console.log('error in signupuser Method', error)
-    })
-    // auth()
-    //   .createUserWithEmailAndPassword(email, pass)
-    //   .then(() => {
-    //     console.log('User account created & signed in!');
-    //   })
-    //   .catch(error => {
-    //     if (error.code === 'auth/email-already-in-use') {
-    //       console.log('That email address is already in use!');
-    //     }
+  const [ name, changeName ] = useState('');
+  const [ position, changePosition ] = useState('');
+  const [ id, setId ] = useState();
+  const [list, setUsersList ] = useState([]);
 
-    //     if (error.code === 'auth/invalid-email') {
-    //       console.log('That email address is invalid!');
-    //     }
-
-    //     console.error(error);
-    //   });
+  const saveAll = () => {
+   console.log(name, position)
+    if (position !== '' && name !== '') {
+      submitUser(id, name, position).then(result => {
+        setId(null);
+        changeName('');
+        changePosition('');
+      })
+      .catch(err => console.log('Error: ', err))
+    }
+    else {
+      alert('Invalid');
+    }
+    
   }
 
-  const signIn = () => {
-    console.log(email, pass)
-    signInUser(email, pass).then(data=>{
-      console.log('SignInUser function called', data)
-    }).catch((error)=>{
-      console.log('error in signInuser Method', error)
+  const deleteAll = () => {
+    database().ref('users')
+    .remove()
+    .then(() => {
+      setUsersList([]);
+      alert('Deleted All Users');
+    }).catch(err=>{
+      alert('Somthing went wrong', err);
     })
-    // auth()
-    //   .createUserWithEmailAndPassword(email, pass)
-    //   .then(() => {
-    //     console.log('User account created & signed in!');
-    //   })
-    //   .catch(error => {
-    //     if (error.code === 'auth/email-already-in-use') {
-    //       console.log('That email address is already in use!');
-    //     }
-
-    //     if (error.code === 'auth/invalid-email') {
-    //       console.log('That email address is invalid!');
-    //     }
-
-    //     console.error(error);
-    //   });
+    
   }
 
-  const logOut = () => {
-    console.log('Logout was pressed')
-    signOutUser().then(()=>{
-      console.log('Sign out successfully')
-    }).catch(error=>{
-      console.log('somthing went wrong', error)
+  const deleteUser = (userSelected) => {
+    console.log('Remove This User', userSelected);
+    database().ref(`users/${userSelected.Id}`).remove().then(()=>{
+      alert(`Removed ${userSelected.Name} successfully`)
+    }).catch(err => {
+      console.log(`Somthing went wrong while removing ${userSelected.Name}: Error: `, err)
     })
   }
 
-  const onAuthChanged = user => {
-    setUser(user)
+  const editUser = (userSelected) => {
+    console.log('Edit User', userSelected);
+    setId(userSelected.Id);
+    changeName(userSelected.Name);
+    changePosition(userSelected.Position);
   }
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthChanged);
-    return subscriber; // unsubscribe on unmount
+    userRef = database().ref('users');
+    const getListListner = userRef.on('value', snapshot => {
+      console.log('useEffect get list listner called', snapshot);
+      setUsersList([]);
+      snapshot.forEach(element => {
+        console.log('element.val' , element.val())
+        setUsersList(list=>[...list, element.val()])
+      });
+    })
+    return () => {
+      database().ref('users').off('value', getListListner)
+    }
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.container}>
-        { user && 
-        (<TouchableOpacity
-          onPress={() => logOut()}
-          style={{ backgroundColor: 'yellow', width: 80, alignSelf: 'flex-end', justifyContent: 'center', alignItems: 'center', height: 30, borderRadius: 10, marginTop: 20 }} >
-          <Text>
-            Log Out
-          </Text>
-        </TouchableOpacity>)}
-        <TextInput
-          value={email}
-          style={styles.input}
-          editable
-          onChangeText={changeMail}
-          maxLength={40}
-          placeholder={'Enter Email'}
-        />
-        <TextInput
-          style={styles.input}
-         value = {pass}
-          editable
-          onChangeText={changePass}
-          maxLength={40}
-          placeholder={'Enter Password'}
-          secureTextEntry={true}
-        />
-        <TouchableOpacity 
-        onPress={() => signUp()}
-        style={{backgroundColor: 'orange', justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 10, marginTop: 20}} >
-          <Text>
-            Sign Up
-          </Text>
-        </TouchableOpacity>
-        <View style={{marginTop: 120}}>
-          <TextInput
-            value={email}
-            style={styles.input}
-            editable
-            onChangeText={changeMail}
-            maxLength={40}
-            placeholder={'Enter Email'}
-          />
-          <TextInput
-            style={styles.input}
-            value={pass}
-            editable
-            onChangeText={changePass}
-            maxLength={40}
-            placeholder={'Enter Password'}
-            secureTextEntry={true}
-          />
-          <TouchableOpacity
-            onPress={() => signIn()}
-            style={{ backgroundColor: 'orange', justifyContent: 'center', alignItems: 'center', height: 50, borderRadius: 10, marginTop: 20 }} >
+        <View style={{flexDirection: 'row', alignSelf: 'flex-end'}}>
+          <TouchableOpacity onPress={deleteAll} style={styles.buttons}>
             <Text>
-              Sign In
-          </Text>
+              Delete All
+            </Text>
           </TouchableOpacity>
+          <TouchableOpacity onPress={saveAll} style={styles.buttons}>
+            <Text>
+              Save All
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <TextInput
+          value={name}
+          style={styles.input}
+          editable
+          onChangeText={changeName}
+          maxLength={40}
+          placeholder={'Name'}
+        />
+        <TextInput
+          style={styles.input}
+          value={position}
+          editable
+          onChangeText={changePosition}
+          maxLength={40}
+          placeholder={'Position'}
+        />
+        <View style={{marginTop: 10}}>
+          <FlatList
+            data={list}
+            renderItem={(item)=>{
+              console.log('item', item)
+              return(
+                <View style={{margin: 5,flex: 1, borderRadius: 5, flexDirection: 'row', backgroundColor: 'orange', justifyContent: 'space-between', padding: 10}}>
+                  <View style={{ justifyContent: 'space-around'}}>
+                    <Text>
+                      {` Name :${item.item.Name}`}
+                    </Text>
+                    <Text>
+                      {`Position :${item.item.Position}`}
+                    </Text>
+                  </View>
+                  <View>
+                    <TouchableOpacity onPress={()=>deleteUser(item.item)} style={styles.buttons}>
+                      <Text>
+                        Delete 
+                      </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>editUser(item.item)} style={styles.buttons}>
+                      <Text>
+                       Edit 
+                       </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              )
+            }}
+           // keyExtractor={(item) => item.id}
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -156,7 +155,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     textAlign: 'center',
-    backgroundColor: '#307ecc',
+    backgroundColor: 'orangered',
   },
   titleText: {
     fontSize: 24,
@@ -173,11 +172,20 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   input: {
-    height: 40, 
+    height: 40,
     backgroundColor: 'white',
     width: '100%',
-    marginTop: 10, 
+    marginTop: 10,
     borderRadius: 10,
+  }, 
+  buttons: {
+    width: 80,
+    height: 30,
+    backgroundColor: 'gold',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 5,
+    margin: 5,
   }
 });
 

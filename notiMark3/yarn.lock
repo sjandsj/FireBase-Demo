@@ -1180,6 +1180,11 @@
   "resolved" "https://registry.npmjs.org/@react-native-firebase/auth/-/auth-12.0.0.tgz"
   "version" "12.0.0"
 
+"@react-native-firebase/database@^12.0.0":
+  "integrity" "sha512-zfKhoLxMdMpLnnBtoKT7bBUDkxazWy28jsM9blg/NO26Wm+5+oA5EL++AZ0XCySU3O69KJVXtYEaeY5pmVKAUw=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/database/-/database-12.0.0.tgz"
+  "version" "12.0.0"
+
 "@react-native-firebase/messaging@^11.5.0":
   "integrity" "sha512-bjsoJByiNtikNLCf5RMmUdIj3uH8Uf0eeyM9PdqfNRB1mtVaYrU8AmXnzbSd5SqJ/sxqwyZVuxzWNEJrcOnhZw=="
   "resolved" "https://registry.npmjs.org/@react-native-firebase/messaging/-/messaging-11.5.0.tgz"
