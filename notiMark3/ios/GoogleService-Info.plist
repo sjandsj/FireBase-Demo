@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>259631333469-hb1kei0nhlahkqlvhge0ofa7sro6733s.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.259631333469-hb1kei0nhlahkqlvhge0ofa7sro6733s</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>259631333469-5dvu4sq1ovuhpf02dkrsmknlh95c9j5s.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAdyu1AhEoI8aptPOtwvAODRTOigSbOwVA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>259631333469</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.notiMark3</string>
+	<key>PROJECT_ID</key>
+	<string>notificationmark3</string>
+	<key>STORAGE_BUCKET</key>
+	<string>notificationmark3.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:259631333469:ios:367ab091e3645cd4d94db4</string>
+	<key>DATABASE_URL</key>
+	<string>https://notificationmark3-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
